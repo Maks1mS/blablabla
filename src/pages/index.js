@@ -123,7 +123,7 @@ export default (() => {
 			</Components.TabPanels>
 		</Components.Tabs>
 		<Components.SimpleTabs>
-			<Components.SimpleTab />
+			<Components.SimpleTab tabId="1234444" />
 			<Components.SimpleTab />
 			<Components.SimpleTab />
 			<Components.SimpleTab />

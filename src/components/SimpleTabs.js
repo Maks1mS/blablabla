@@ -14,13 +14,15 @@ const SimpleTabs = ({
 	const buttons = useMemo(() => React.Children.map(children, child => {
 		if (!React.isValidElement(child) || child.key === '.$placeholder') {
 			return;
-		}
+		} // child.props.tabId === undefined
 
-		console.log(child);
+
+		console.log(child.props.tabId);
 		/*
     const onClick = () => {
       setTab(child.props.tabId)
     }
+    return return <Button onClick={onClick}>
   */
 
 		return <Button>
