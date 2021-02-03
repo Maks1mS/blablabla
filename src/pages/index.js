@@ -1,6 +1,6 @@
 import React from "react";
 import theme from "theme";
-import { Theme, Link, Text } from "@quarkly/widgets";
+import { Theme, Link, Button, Text } from "@quarkly/widgets";
 import { Helmet } from "react-helmet";
 import { GlobalQuarklyPageStyles } from "global-page-styles";
 import { Override } from "@quarkly/components";
@@ -15,42 +15,58 @@ export default (() => {
 			<meta name={"description"} content={"Web site created using quarkly.io"} />
 			<link rel={"shortcut icon"} href={"https://uploads.quarkly.io/readme/cra/favicon-32x32.ico"} type={"image/x-icon"} />
 		</Helmet>
-		<Components.Tabs defaultTab="one" align="start">
+		<Components.Tabs defaultTab="two" orientation="Vertical" align="start" height="300px">
 			<Components.TabList>
 				<Components.Tab tabId="one">
-					<Override slot="Tab text" disabled>
+					<Override slot="Selected Tab" background="#2e2b2b" />
+					<Button width="100%" height="100%" border-radius="0" focus-box-shadow="none">
 						One
-					</Override>
+					</Button>
 				</Components.Tab>
 				<Components.Tab tabId="two">
-					<Override slot="Tab text" disabled={false}>
-						Tab two
-					</Override>
+					<Button width="100%" height="100%">
+						Two
+					</Button>
 				</Components.Tab>
 				<Components.Tab tabId="three">
-					<Override slot="Tab text" disabled>
+					<Button width="100%" height="100%">
 						Three
-					</Override>
+					</Button>
 				</Components.Tab>
 				<Components.Tab tabId="four">
-					<Override slot="Tab text" disabled={false}>
+					<Button width="100%" height="100%">
 						Four
-					</Override>
+					</Button>
 				</Components.Tab>
 				<Components.Tab tabId="five">
-					<Override slot="Tab text" disabled={false} active-background="#000000">
+					<Button width="100%" height="100%">
 						Five
-					</Override>
+					</Button>
 				</Components.Tab>
 				<Components.Tab tabId="six">
-					<Override slot="Tab text" disabled={false}>
+					<Button width="100%" height="100%">
 						Six
-					</Override>
+					</Button>
 				</Components.Tab>
 				<Components.Tab tabId="seven">
-					<Override slot="Tab text" disabled>
+					<Button width="100%" height="100%">
 						Seven
-					</Override>
+					</Button>
+				</Components.Tab>
+				<Components.Tab tabId="eight">
+					<Button width="100%" height="100%">
+						Eight
+					</Button>
+				</Components.Tab>
+				<Components.Tab tabId="nine">
+					<Button width="100%" height="100%">
+						Nine
+					</Button>
+				</Components.Tab>
+				<Components.Tab tabId="ten">
+					<Button width="100%" height="100%">
+						Ten
+					</Button>
 				</Components.Tab>
 			</Components.TabList>
 			<Components.TabPanels>
@@ -89,8 +105,29 @@ export default (() => {
 						7
 					</Text>
 				</Components.TabPanel>
+				<Components.TabPanel tabId="eight">
+					<Text>
+						8
+					</Text>
+				</Components.TabPanel>
+				<Components.TabPanel tabId="nine">
+					<Text>
+						9
+					</Text>
+				</Components.TabPanel>
+				<Components.TabPanel tabId="ten">
+					<Text>
+						10
+					</Text>
+				</Components.TabPanel>
 			</Components.TabPanels>
 		</Components.Tabs>
+		<Components.SimpleTabs>
+			<Components.SimpleTab />
+			<Components.SimpleTab />
+			<Components.SimpleTab />
+			<Components.SimpleTab />
+		</Components.SimpleTabs>
 		<Link
 			font={"--capture"}
 			font-size={"10px"}

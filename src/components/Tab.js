@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import atomize from '@quarkly/atomize';
-import { Box, Button } from '@quarkly/widgets';
+import { Box } from '@quarkly/widgets';
 import { useOverrides } from '@quarkly/components';
 import { useTabs } from './Tabs';
 const overrides = {
-	'Tab text': {
-		kind: 'Button',
-		props: {
-			children: 'Tab text'
-		}
+	'Tab': {
+		kind: 'Box'
+	},
+	'Unselected Tab': {
+		kind: 'Box'
+	},
+	'Selected Tab': {
+		kind: 'Box'
 	}
 };
 
@@ -16,55 +19,61 @@ const Tab = ({
 	tabId,
 	...props
 }) => {
-	const {
-		override,
-		rest
-	} = useOverrides(props, overrides);
+	const ref = useRef();
 	const {
 		setTabId,
 		currentTabId,
 		align
 	} = useTabs();
+	const {
+		override,
+		children,
+		rest
+	} = useOverrides(props, overrides);
 	const selected = currentTabId === tabId;
 
 	const onClick = () => {
+		ref.current.scrollIntoView({
+			block: 'nearest',
+			behavior: 'smooth'
+		});
 		setTabId(tabId);
 	};
 
-	const fullWidthStyles = {
-		width: '100%'
-	};
-	const selectedStyles = {
-		'border-bottom': 'solid 2px black',
-		'margin-bottom': '-2px',
-		tabIndex: 0
-	};
-	return <Box {...align === 'full width' && fullWidthStyles} {...rest}>
-		<Button
-			role="tab"
-			tabIndex="-1"
-			aria-selected={selected}
-			color="black"
-			background="none"
-			border-radius="0"
-			onClick={onClick}
-			{...align === 'full width' && fullWidthStyles}
-			{...selected && selectedStyles}
-			{...override('Tab text')}
-		/>
+	return <Box
+		ref={ref}
+		flex={align === 'full width' ? '0 1 100%' : '0 0 auto'}
+		role="tab"
+		tabIndex="-1"
+		cursor="pointer"
+		aria-selected={selected}
+		onClick={onClick}
+		{...rest}
+	>
+		    
+		<Box {...override('Tab', `${selected ? 'Selected' : 'Unselected'} Tab`)}>
+			      
+			{children}
+			    
+		</Box>
+		  
 	</Box>;
 };
 
 const propInfo = {
 	tabId: {
+		title: 'Tab ID',
+		description: {
+			en: 'The ID of the TabPanel to show when clicked.'
+		},
 		control: 'input'
 	}
 };
 export default atomize(Tab)({
 	name: 'Tab',
-	effects: {
-		selected: 'selected'
+	descrition: {
+		ru: 'Вкладка (кнопка), представляющая из себя механизм для выбора вкладки необходимой пользователю. Должен располагаться внутри TabList'
 	},
-	overrides,
-	propInfo
+	propInfo,
+	overrides
 });

@@ -12,17 +12,26 @@ const TabPanel = ({
 		currentTabId
 	} = useTabs();
 	const isHidden = currentTabId !== tabId;
-	return <Box tabIndex="0" hidden={isHidden} {...props}>
+	return <Box role="tabpanel" hidden={isHidden} {...props}>
+		    
 		{children}
+		  
 	</Box>;
 };
 
 const propInfo = {
 	tabId: {
+		title: 'Tab ID',
+		description: {
+			en: 'The ID of the TabPanel to show when clicked.'
+		},
 		control: 'input'
 	}
 };
 export default atomize(TabPanel)({
 	name: 'TabPanel',
+	description: {
+		ru: 'Контейнер для ресурсов связанных с Tab, где каждый Tab содержиться в Tablist. Должен располагаться внутри TabPanels'
+	},
 	propInfo
 });

@@ -5,13 +5,13 @@ import atomize from '@quarkly/atomize';
 const TabPanels = ({
 	children,
 	...props
-}) => {
-	return <Box {...props}>
-		{children}
-	</Box>;
-};
+}) => <Box {...props}>
+	{children}
+</Box>;
 
 export default atomize(TabPanels)({
-	name: 'Tab',
-	description: {}
+	name: 'TabPanels',
+	description: {
+		ru: 'Контейнейр с TabPanel. Этот компонент должен располагаться внутри Tabs'
+	}
 });

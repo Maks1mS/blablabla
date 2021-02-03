@@ -1,29 +1,32 @@
-import React, { useState, createContext, useContext, useCallback } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { Box } from '@quarkly/widgets';
 import atomize from '@quarkly/atomize';
 const TabsContext = createContext({
 	currentTabId: '',
-	setTabId: '',
-	align: 'start'
+	setTabId: () => {},
+	align: 'start',
+	orientation: 'Horizontal'
 });
 export const useTabs = () => useContext(TabsContext);
-export const getCorrectChildren = ({
-	children
-}) => React.Children.toArray(children).filter(c => c.key !== '.$.$placeholder');
 
 const Tabs = ({
 	defaultTab,
+	orientation,
 	align,
 	children,
 	...props
 }) => {
 	const [currentTabId, setTabId] = useState(defaultTab);
+	useEffect(() => {
+		setTabId(defaultTab);
+	}, [defaultTab]);
 	const value = {
 		currentTabId,
 		setTabId,
-		align
+		align,
+		orientation
 	};
-	return <Box {...props}>
+	return <Box display="flex" flex-direction={orientation === 'Horizontal' ? 'column' : 'row'} height="300px" {...props}>
 		      
 		<TabsContext.Provider value={value}>
 			        
@@ -38,31 +41,38 @@ const propInfo = {
 	defaultTab: {
 		title: 'Default Tab',
 		description: {
-			en: 'Set default tab (required)'
+			en: 'The tabId of the initially selected tab when uncontrolled.'
 		},
 		control: 'input'
 	},
 	align: {
 		title: 'Align',
 		description: {
-			en: 'Where to align'
+			en: 'The alignment of the tabs'
 		},
 		control: 'select',
 		variants: ['start', 'center', 'end', 'full width']
+	},
+	orientation: {
+		title: 'Orientation',
+		description: {
+			en: 'Orientation of tabs'
+		},
+		control: 'radio-group',
+		variants: ['Vertical', 'Horizontal']
 	}
 };
 const defaultProps = {
-	align: 'start'
+	align: 'start',
+	orientation: 'Horizontal'
 };
 export default atomize(Tabs)({
 	name: 'Tabs',
+	description: {
+		en: 'Tabs make it easy to explore and switch between different views.'
+	},
 	effects: {
 		hover: ':hover'
-	},
-	normalize: true,
-	mixins: true,
-	description: {
-		en: 'Tabs'
 	},
 	propInfo
 }, defaultProps);
