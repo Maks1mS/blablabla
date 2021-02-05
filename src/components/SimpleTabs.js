@@ -67,9 +67,9 @@ const SimpleTabs = ({
 	useEffect(() => {
 		setCurrentTab(defaultTab);
 	}, [defaultTab]);
+	console.log(currentTab);
 	const addTab = useCallback(tab => {
 		tabsRef.current = append(tabsRef.current, tab);
-		console.log(window.location, tab, '#' + tab, window.location.hash === '#' + tab);
 
 		if (window.location.hash === '#' + tab) {
 			setCurrentTab(tab);
