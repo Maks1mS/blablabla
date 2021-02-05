@@ -1,9 +1,23 @@
 import atomize from '@quarkly/atomize';
 import { Box } from '@quarkly/widgets';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useTabs } from './SimpleTabs';
 
-const SimpleTab = props => {
-	return <Box {...props} />;
+const SimpleTab = ({
+	tabId,
+	...props
+}) => {
+	const {
+		addTab,
+		currentTab,
+		removeTab
+	} = useTabs();
+	useEffect(() => {
+		addTab(tabId);
+		return () => removeTab(tabId);
+	}, [tabId]);
+	const isHidden = currentTab !== tabId;
+	return <Box role="tabpanel" hidden={isHidden} {...props} />;
 };
 
 const propInfo = {
@@ -15,7 +29,13 @@ const propInfo = {
 		control: 'input'
 	}
 };
+const defaultProps = {
+	tabId: ''
+};
 export default atomize(SimpleTab)({
-	title: 'SimpleTab',
+	name: 'SimpleTab',
+	description: {
+		en: 'SimpleTab'
+	},
 	propInfo
-});
+}, defaultProps);
