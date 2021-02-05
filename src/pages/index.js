@@ -15,7 +15,7 @@ export default (() => {
 			<meta name={"description"} content={"Web site created using quarkly.io"} />
 			<link rel={"shortcut icon"} href={"https://uploads.quarkly.io/readme/cra/favicon-32x32.ico"} type={"image/x-icon"} />
 		</Helmet>
-		<Components.SimpleTabs defaultTab="1">
+		<Components.SimpleTabs defaultTab="3">
 			<Override slot="Tab 1">
 				Tab 1
 			</Override>

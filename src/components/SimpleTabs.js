@@ -59,15 +59,19 @@ const SimpleTabs = ({
 	const [currentTab, setCurrentTab] = useState(defaultTab);
 	const [tabs, setTabs] = useState([]);
 	const tabsRef = useRef([]);
+	const isInitialMount = useRef(true);
 	const {
 		override,
 		children,
 		rest
 	} = useOverrides(props, overrides);
 	useEffect(() => {
-		setCurrentTab(defaultTab);
+		if (isInitialMount.current) {
+			isInitialMount.current = false;
+		} else {
+			setCurrentTab(defaultTab);
+		}
 	}, [defaultTab]);
-	console.log(currentTab);
 	const addTab = useCallback(tab => {
 		tabsRef.current = append(tabsRef.current, tab);
 
