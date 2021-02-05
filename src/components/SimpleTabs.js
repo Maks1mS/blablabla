@@ -114,7 +114,7 @@ const SimpleTabs = ({
 		return <Button
 			key={i}
 			role="tab"
-			tabIndex="-1"
+			tabIndex={selected ? "0" : "-1"}
 			aria-selected={selected}
 			onClick={onClick}
 			{...override('Tab', `Tab ${tab}`, selected && 'Tab :active')}
@@ -156,7 +156,7 @@ const defaultProps = {
 export default atomize(SimpleTabs)({
 	name: 'SimpleTabs',
 	description: {
-		en: 'SimpleTabs'
+		en: 'SimpleTabs make it easy to explore and switch between different views.'
 	},
 	propInfo,
 	overrides

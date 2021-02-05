@@ -1,23 +1,23 @@
 import atomize from '@quarkly/atomize';
 import { Box } from '@quarkly/widgets';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { useTabs } from './SimpleTabs';
 
-const SimpleTab = ({
-	tabId,
-	...props
+const SimpleTab = ({ ...props
 }) => {
+	const ref = useRef();
 	const {
 		addTab,
 		currentTab,
 		removeTab
 	} = useTabs();
+	const tabId = props.tabId || props['data-qid'];
 	useEffect(() => {
 		addTab(tabId);
 		return () => removeTab(tabId);
 	}, [tabId]);
 	const isHidden = currentTab !== tabId;
-	return <Box role="tabpanel" hidden={isHidden} {...props} />;
+	return <Box ref={ref} role="tabpanel" hidden={isHidden} {...props} />;
 };
 
 const propInfo = {
@@ -29,13 +29,10 @@ const propInfo = {
 		control: 'input'
 	}
 };
-const defaultProps = {
-	tabId: ''
-};
 export default atomize(SimpleTab)({
 	name: 'SimpleTab',
 	description: {
-		en: 'SimpleTab'
+		en: 'Контейнер для ресурсов связанных с вкладкой. Должен располагаться внутри SimpleTabs'
 	},
 	propInfo
-}, defaultProps);
+});
