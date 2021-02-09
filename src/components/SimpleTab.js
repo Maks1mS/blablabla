@@ -3,7 +3,9 @@ import { Box } from '@quarkly/widgets';
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useTabs } from './SimpleTabs';
 
-const SimpleTab = ({ ...props
+const SimpleTab = ({
+	index,
+	...props
 }) => {
 	const ref = useRef();
 	const {
@@ -13,9 +15,19 @@ const SimpleTab = ({ ...props
 	} = useTabs();
 	const tabId = props.tabId || props['data-qid'];
 	useEffect(() => {
-		addTab(tabId);
-		return () => removeTab(tabId);
-	}, [tabId]);
+		console.log('Call Add', tabId, index);
+		addTab({
+			tabId,
+			index
+		});
+		return () => {
+			console.log('Call Remove', tabId, index);
+			removeTab({
+				tabId,
+				index
+			});
+		};
+	}, [tabId, index]);
 	const isHidden = currentTab !== tabId;
 	return <Box ref={ref} role="tabpanel" hidden={isHidden} {...props} />;
 };

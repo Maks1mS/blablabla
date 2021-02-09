@@ -3,13 +3,15 @@ import atomize from '@quarkly/atomize';
 import { Box, Button } from '@quarkly/widgets';
 import { useOverrides } from '@quarkly/components';
 
-const append = (array, element) => element ? [...array, element] : array;
-
-const remove = (array, element) => {
-	const index = array.indexOf(element);
-	if (index !== -1) array.splice(index, 1);
-	return array;
+const append = (array, element) => {
+	const index = array.findIndex(v => element.index < v.index);
+	return index !== -1 ? [...array.slice(0, index), element, ...array.slice(index, array.length)] : [...array, element];
 };
+
+const remove = (array, element) => array.filter(({
+	index,
+	tabId
+}) => element.index !== index || element.tabId !== tabId);
 
 const getNextNode = (node, mode) => {
 	const first = {
@@ -43,6 +45,12 @@ const overrides = {
 		props: {
 			children: 'Tab'
 		}
+	},
+	Tablist: {
+		kind: 'Box'
+	},
+	TabPanels: {
+		kind: 'Box'
 	}
 };
 const TabsContext = createContext({
@@ -58,7 +66,6 @@ const SimpleTabs = ({
 }) => {
 	const [currentTab, setCurrentTab] = useState(defaultTab);
 	const [tabs, setTabs] = useState([]);
-	const tabsRef = useRef([]);
 	const isInitialMount = useRef(true);
 	const {
 		override,
@@ -73,17 +80,14 @@ const SimpleTabs = ({
 		}
 	}, [defaultTab]);
 	const addTab = useCallback(tab => {
-		tabsRef.current = append(tabsRef.current, tab);
-
 		if (window.location.hash === '#' + tab) {
 			setCurrentTab(tab);
 		}
 
-		setTabs(tabsRef.current);
+		setTabs(s => append(s, tab));
 	});
 	const removeTab = useCallback(tab => {
-		tabsRef.current = remove(tabsRef.current, tab);
-		setTabs(tabsRef.current);
+		setTabs(s => remove(s, tab));
 	});
 	const value = {
 		currentTab,
@@ -107,32 +111,43 @@ const SimpleTabs = ({
 		nextElement.click();
 	};
 
-	const buttons = useMemo(() => tabs.map((tab, i) => {
-		const onClick = () => setCurrentTab(tab);
+	const buttons = useMemo(() => tabs.map(({
+		tabId
+	}, i) => {
+		const onClick = () => setCurrentTab(tabId);
 
-		const selected = currentTab === tab;
+		const selected = currentTab === tabId;
 		return <Button
-			key={i}
+			key={props.qid + i}
 			role="tab"
-			tabIndex={selected ? "0" : "-1"}
+			tabIndex={selected ? '0' : '-1'}
+			zIndex={selected ? '2' : '1'}
 			aria-selected={selected}
 			onClick={onClick}
-			{...override('Tab', `Tab ${tab}`, selected && 'Tab :active')}
-		/>;
+			{...override('Tab', `Tab ${tabId}`, selected && 'Tab :active')}
+		>
+			      
+			{override(`Tab ${tabId}`).children || 'Some Text'}
+			    
+		</Button>;
 	}), [tabs, override]);
 	return <Box {...rest}>
 		    
-		<Box onKeyDown={onKeyDown} role="tablist">
+		<Box display="flex" onKeyDown={onKeyDown} role="tablist" {...override('Tablist')}>
 			      
 			{buttons}
 			    
 		</Box>
 		    
-		<Box>
+		<Box {...override('TabPanels')}>
 			      
 			<TabsContext.Provider value={value}>
 				        
-				{children}
+				{children.map((child, i) => {
+					return React.cloneElement(child, {
+						index: i + children.length
+					});
+				})}
 				      
 			</TabsContext.Provider>
 			    
