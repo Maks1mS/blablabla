@@ -1,6 +1,6 @@
 import React from "react";
 import theme from "theme";
-import { Theme, Link, Text, Image } from "@quarkly/widgets";
+import { Theme, Link, Box, Text, Image, Button } from "@quarkly/widgets";
 import { Helmet } from "react-helmet";
 import { GlobalQuarklyPageStyles } from "global-page-styles";
 import { Override } from "@quarkly/components";
@@ -15,6 +15,20 @@ export default (() => {
 			<meta name={"description"} content={"Web site created using quarkly.io"} />
 			<link rel={"shortcut icon"} href={"https://uploads.quarkly.io/readme/cra/favicon-32x32.ico"} type={"image/x-icon"} />
 		</Helmet>
+		<Box left="0px" right="874px" width="100%" height="100px">
+			<Components.SvgShape
+				stroke="#000000"
+				fill="#cfd0da"
+				strokeWidth="0.3"
+				type="Ellipse"
+				bottom="auto"
+				left="auto"
+				right="-864px"
+				top="-273px"
+			>
+				<Override slot="Rect" width="60px" height="60px" color="#0b0b0b" />
+			</Components.SvgShape>
+		</Box>
 		<Components.SimpleTabs defaultTab="1">
 			<Override slot="Tab 1">
 				Tab 1
@@ -169,6 +183,9 @@ export default (() => {
 				</Text>
 			</Components.SimpleTab>
 		</Components.SimpleTabs>
+		<Button>
+			Button
+		</Button>
 		<Link
 			font={"--capture"}
 			font-size={"10px"}
